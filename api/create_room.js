@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 function randCode(len=6){
   const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
   let s = "";
@@ -23,7 +25,8 @@ module.exports = async (req, res) => {
   let body;
   try { body = await getJSON(req); } catch(e){ return res.status(400).end(JSON.stringify({ error: "invalid json body" })); }
   const name = body.name || "Host";
-  const room = randCode(6);
+  const room = uuidv4();
+
   try {
     const r = await fetch(`${SUPABASE_URL}/rest/v1/rooms`, {
       method: "POST",
